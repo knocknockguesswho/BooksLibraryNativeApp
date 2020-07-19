@@ -19,14 +19,14 @@ const Interface = (state = initialState, action)=>{
         ...state,
         isLoading: false,
         isError: true,
-        errorMsg: action.payload.response.data.data
+        errorMsg: 'Something bad happened'
       }
     case 'GETALLBOOKS_FULFILLED':
       return {
         ...state,
         isLoading: false,
         isError: false,
-        successMsg: action.payload.response.data.data,
+        successMsg: 'Data successfully listed',
         data: action.payload.data.data
       }
     default:

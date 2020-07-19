@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import Login from '../components/form/Login';
+import LoginForm from '../components/form/Login';
 import {
   Text, 
   View, 
@@ -34,7 +34,7 @@ const SlideUp = (props) =>{
           <View style={styles.sheetContent}>
             <View style={styles.sheetHandle}></View>
             {/* {this.props.isLoggedin ? } */}
-            <Login {...props}/>
+            <LoginForm {...props}/>
           </View>
 
         </SlidingUpPanel>

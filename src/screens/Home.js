@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { GetBooks } from '../redux/actions/Interface'
 
 import {
+  Text,
   View, 
   StyleSheet, 
   Dimensions,
@@ -32,8 +33,9 @@ class Home extends Component{
 
 
 
-  componentDidMount(){
-    this._getBooks();
+  async componentDidMount(){
+    await this._getBooks();
+    console.log(this.props.Auth)
   }
 
   render(){
@@ -42,13 +44,11 @@ class Home extends Component{
       <View style={styles.container}>
         <View style={styles.header}>
           <MainNavigation onHome={this.state.onScreen} navigation={this.props.navigation}/>
-          {/* <Tab.Navigator>
-            <Tab.Screen name='Dashboard' component={Dashboard}/>
-            <Tab.Screen  name='Search' component={Search}/>
-          </Tab.Navigator> */}
         </View>
         <View style={styles.main}>
-          <Dashboard {...this.props}/>
+          {this.props.Interface.isLoading ? <Text>Loading...</Text> : 
+            <Dashboard {...this.props}/>
+          }
         </View>
         <View style={styles.footer}>
           <SlideUp {...this.props}/>
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   header:{
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10
   },
   main:{
     flex: 1,
@@ -86,7 +87,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state =>({
-  Interface: state.Interface
+  Interface: state.Interface,
+  Auth: state.Auth
 })
 
 const mapDispatchToProps = { GetBooks };

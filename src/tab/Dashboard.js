@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import Carousel from '../components/display/Carousel';
 import NovelCard from '../components/display/NovelCard';
@@ -7,23 +7,35 @@ import ComicCard from '../components/display/ComicCard';
 
 
 export default Dashboard = (props)=>{
-  console.log(props.navigation)
+
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(()=>{
+    setIsLoading(props.Interface.isLoading)
+  }, [props])
+  
   return(
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Carousel />
-      <View style={styles.container}>
-        <NovelCard />
-        <ComicCard />
-        <TeorethicalCard />
+    <>
+    {isLoading? <Text>Loading...</Text> : 
+      <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Carousel {...props}/>
+          <View style={styles.cardContainer}>
+            <NovelCard {...props}/>
+            <ComicCard {...props}/>
+            <TeorethicalCard {...props}/>
+          </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+    }
+    </>
   )
 }
 
 const {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  container:{
+  cardContainer:{
     width: width - 30,
     marginTop: 20,
     marginBottom: 50,

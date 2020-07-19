@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import CheckBox from '@react-native-community/checkbox';
+import {connect} from 'react-redux';
+import {Login} from '../../redux/actions/Auth';
 import {
   Text, 
   View, 
@@ -11,20 +13,30 @@ import {
 // import {Container, Header, Content, Input, Item} from 'native-base';
 import { Input } from 'react-native-elements';
 
-const Login = (props) =>{
+const LoginForm = (props) =>{
 
   const [input, setInput] = useState({
     username: '',
-    password: ''
+    password: '',
   })
 
   const [checked, setChecked] = useState(false);
+
+  const handleLogin = (event) =>{
+    event.preventDefault();
+    const data = {
+      username: input.username,
+      password: input.password
+    };
+    props.Login(data).then(()=>{
+      props.navigation.push('Home')
+    })
+  }
+
   return(
     <>
       <View style={styles.formGroup}>
         <Text style={{fontWeight: '700', fontSize: 20, alignSelf:'center', marginBottom: 10, color: '#424242'}}>Login</Text>
-        {/* <View>
-        </View> */}
 
         <TextInput textContentType='username' blurOnSubmit={true} style={styles.formInput} placeholder='Username' value={input.username} placeholderTextColor='#ebebeb' onChangeText={(value)=>setInput({...input, username: value})} />
         <TextInput blurOnSubmit={true} secureTextEntry={true} style={styles.formInput} placeholder='Password' value={input.password} placeholderTextColor='#ebebeb' onChangeText={(value)=>setInput({...input, password: value})} />
@@ -56,7 +68,7 @@ const Login = (props) =>{
               }>Forgot Password?</Text>
           </TouchableOpacity>  
         </View>
-        <TouchableOpacity style={styles.loginButton} activeOpacity={.6}>
+        <TouchableOpacity style={styles.loginButton} activeOpacity={.6} onPress={handleLogin}>
           <Text style={{color: 'white', fontFamily: 'Poppins-Regular'}}>Login</Text>
         </TouchableOpacity>
         <View style={styles.signUpOffer}>
@@ -129,6 +141,15 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#188FDE'
   }
+});
+
+const mapStateToProps = (state)=>({
+  Auth: state.Auth
 })
 
-export default Login;
+const mapDispatchToProps = { Login }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginForm);

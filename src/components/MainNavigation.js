@@ -15,7 +15,11 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-export default MainNavigation = (props) =>{
+
+const Tab = createMaterialTopTabNavigator()
+
+
+export default MainNavigation = () =>{
   
   const [toggleHome, setToggleHome] = useState(true);
   const [toggleSearch, setToggleSearch] = useState(false);
@@ -40,6 +44,12 @@ export default MainNavigation = (props) =>{
   }
 
   return(
+    // <Tab.Navigator>
+    //   <Tab.Screen name='Dashboard' component={Dashboard} />
+    //   <Tab.Screen name='Search' component={Search}/>
+    //   <Tab.Screen name='FriendList' component={FriendList} />
+    // </Tab.Navigator>
+
     <View style={styles.container}>
       <View style={styles.navContent}>
       <TouchableOpacity onPress={handleToggleHome}>
@@ -65,6 +75,43 @@ export default MainNavigation = (props) =>{
       <View></View>
       }
     </View>
+
+
+    // {/* <Tab.Navigator
+    //   initialRouteName="Dashboard"
+    // >
+    //   <View style={styles.container}>
+    //     <View style={styles.navContent}>
+    //     <Tab.Screen name='Dashboard' component={Dashboard}>
+    //       <TouchableOpacity onPress={handleToggleHome}>
+    //         <View style={toggleHome ? styles.homeNavActive : styles.homeNavInactive}>
+    //           <HomeLogo width={20} height={20} style={{marginLeft: 15}} />
+    //         </View>
+    //       </TouchableOpacity>
+    //     </Tab.Screen>
+    //     <Tab.Screen name='Search' component={Search}>
+    //       <TouchableOpacity onPress={handleToggleSearch}>
+    //         <View style={toggleSearch? styles.searchNavActive : styles.searchNavInactive}>
+    //           <SearchLogo width={20} height={20} />
+    //         </View>
+    //       </TouchableOpacity>
+    //     </Tab.Screen>
+    //     <Tab.Screen name='FriendList' component={FriendList}>
+    //       <TouchableOpacity onPress={handleToggleFriends}>
+    //         <View style={toggleFriends? styles.friendsNavActive : styles.friendsNavInactive}>
+    //           <FriendsLogo width={20} height={20} style={{marginRight: 15}} />
+    //         </View>
+    //       </TouchableOpacity>
+    //     </Tab.Screen>
+    //     </View>
+    //     {toggleSearch? 
+    //     <Animatable.View animation="slideInDown" duration={200} style={styles.searchBarContainer}>
+    //       <TextInput style={{textAlign: 'center'}} placeholder='Search' />
+    //     </Animatable.View> :
+    //     <View></View>
+    //     }
+    //   </View>
+    // </Tab.Navigator> */}
   )
 }
 
