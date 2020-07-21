@@ -26,6 +26,7 @@ const Auth = (state = initalState, action)=>{
         ...state,
         isLoading: true,
         isError: false,
+        isLogin: true,
         data: action.payload.data.data[0]
       }
     case 'LOGOUT_FULFILLED':
@@ -33,6 +34,7 @@ const Auth = (state = initalState, action)=>{
         ...state,
         isLoading: false,
         isError: false,
+        isLogin: false,
         data: {}
       }
     default:

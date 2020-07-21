@@ -6,6 +6,8 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import Home from './src/screens/Home';
 import Signup from './src/screens/Signup';
 import SearchResult from './src/screens/SearchResult';
+import BookDetail from './src/screens/BookDetail';
+import FilterResult from './src/screens/FilterResult';
 
 import Dashboard from './src/tab/Dashboard';
 import Search from './src/tab/Search';
@@ -43,6 +45,8 @@ const App = () => {
               <Stack.Screen name='Home' component={Home} />
               <Stack.Screen name='Signup' component={Signup} />
               <Stack.Screen name='SearchResult' component={SearchResult} />
+              <Stack.Screen name='BookDetail' component={BookDetail} />
+              <Stack.Screen name='FilterResult' component={FilterResult} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>

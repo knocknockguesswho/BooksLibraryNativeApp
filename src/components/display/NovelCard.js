@@ -28,6 +28,10 @@ export default NovelCard = (props) =>{
     return category.genre === 'Comedy'
   });
 
+  // const handleShowBooks = () =>{
+
+  // }
+
   return(
     <View style={styles.container}>
       <View>
@@ -35,7 +39,10 @@ export default NovelCard = (props) =>{
         <Text style={{fontFamily: 'Poppins-Regular', fontSize: 12, width: '85%'}}>These are Novels to brings your mood back!</Text>
       </View>
       <View style={styles.cardContainer}>
-          <TouchableOpacity activeOpacity={.9} style={styles.card} onPress={()=>console.log(props)}>
+          <TouchableOpacity 
+            onPress={()=>props.navigation.navigate('FilterResult', {
+              data: romanceCategory[romanceCategory.length-1]
+            })} activeOpacity={.9} style={styles.card}>
             <View style={styles.cardImageContent}>
             <Image 
               style={{flex: 1, width: null, height: null, resizeMode:'cover'}}
@@ -46,7 +53,10 @@ export default NovelCard = (props) =>{
               <Text style={{alignSelf:'center', fontFamily: 'Poppins-Regular', paddingTop: 10, fontSize: 10}}>Romance Category</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={.9} style={styles.card}>
+          <TouchableOpacity 
+            onPress={()=>props.navigation.navigate('FilterResult', {
+              data: politicCategory[politicCategory.length-1]
+            })} activeOpacity={.9} style={styles.card}>
             <View style={styles.cardImageContent}>
             <Image 
               style={{flex: 1, width: null, height: null, resizeMode:'cover'}}
@@ -57,7 +67,10 @@ export default NovelCard = (props) =>{
               <Text style={{alignSelf:'center', fontFamily: 'Poppins-Regular', paddingTop: 10, fontSize: 10}}>Politic Category</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={.9} style={styles.card}>
+          <TouchableOpacity
+            onPress={()=>props.navigation.navigate('FilterResult', {
+              data: comedyCategory[comedyCategory.length-1]
+            })} activeOpacity={.9} style={styles.card}>
             <View style={styles.cardImageContent}>
             <Image 
               style={{flex: 1, width: null, height: null, resizeMode:'cover'}}

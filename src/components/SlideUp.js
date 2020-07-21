@@ -1,15 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import LoginForm from '../components/form/Login';
-import {
-  Text, 
+import Profile from '../components/display/Profile';
+import { 
   View, 
   StyleSheet, 
-  Button, 
   Dimensions,
   Animated,
-  TextInput,
-  FlatList
 } from 'react-native';
 
 
@@ -33,8 +30,10 @@ const SlideUp = (props) =>{
         >
           <View style={styles.sheetContent}>
             <View style={styles.sheetHandle}></View>
-            {/* {this.props.isLoggedin ? } */}
-            <LoginForm {...props}/>
+            {props.Auth.isLogin ? 
+              <Profile navigation={props.navigation}/> :
+              <LoginForm {...props}/>
+            }
           </View>
 
         </SlidingUpPanel>
@@ -60,8 +59,8 @@ const styles = StyleSheet.create({
     padding: 10
   },
   sheetHandle:{
-    height: 3,
-    width: 50,
+    height: 4,
+    width: 35,
     backgroundColor: '#bbb',
     borderRadius: 6,
     alignSelf: 'center',

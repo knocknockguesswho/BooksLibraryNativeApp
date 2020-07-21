@@ -59,6 +59,18 @@
 		B4BFD852E3E445728DC9AD31 /* user-friends.svg in Resources */ = {isa = PBXBuildFile; fileRef = FD593E3233304A6DB771259D /* user-friends.svg */; };
 		DCA6DA62D3DB49198A20E4FC /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE032100C5E4B4CB26E1041 /* Poppins-Bold.ttf */; };
 		B298A7D04BD549A780499DC8 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D06A36BB16C4F07A000C1FA /* Poppins-SemiBold.ttf */; };
+		87476F0E7DB84873B59A63C8 /* dilan.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 57DA1657DD8B49B08B9A8B6A /* dilan.jpg */; };
+		9C9031469BC74D52AFFE91A4 /* user-alt.svg in Resources */ = {isa = PBXBuildFile; fileRef = CC995322EE574E4AB971287A /* user-alt.svg */; };
+		BE7F40EEAF2E4320BCEB79C2 /* arrow-left.svg in Resources */ = {isa = PBXBuildFile; fileRef = 70A50E26ECC14EEF99727367 /* arrow-left.svg */; };
+		88FE7E56FB5E4E87B7F1AF26 /* blank-star.svg in Resources */ = {isa = PBXBuildFile; fileRef = 5EF7EA46FA43417F9A37EE4A /* blank-star.svg */; };
+		29E55A91D93F4BB69C8C9D1E /* chart-line.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1E46BBE0EA1E439FA2653528 /* chart-line.svg */; };
+		C9C281EC03334CF794078CA7 /* clock.svg in Resources */ = {isa = PBXBuildFile; fileRef = CC6745027B6A412FBD713A78 /* clock.svg */; };
+		9363C8EE674E48338F7D85A7 /* gold-star.svg in Resources */ = {isa = PBXBuildFile; fileRef = DCF4008974BA4CAC8009A3EF /* gold-star.svg */; };
+		C3BA1A6CF4C14979AF03A78D /* heart.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6248E26055CE44AF8E523414 /* heart.svg */; };
+		10A4F66555C14245A7557728 /* inbox.svg in Resources */ = {isa = PBXBuildFile; fileRef = F47A5FA859C1404481FB7D8D /* inbox.svg */; };
+		C41F2B39BCA34E9D89EDB502 /* tools.svg in Resources */ = {isa = PBXBuildFile; fileRef = 14690B2CEBC6472EA1B1DB26 /* tools.svg */; };
+		219755B478E9412C8187B820 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8FF461D2902B4D56B80D9D2E /* Poppins-BoldItalic.ttf */; };
+		6550623DF41242C2B527A168 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48269F5B063E4ED9A7850651 /* Poppins-Italic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +149,18 @@
 		FD593E3233304A6DB771259D /* user-friends.svg */ = {isa = PBXFileReference; name = "user-friends.svg"; path = "../assets/images/user-friends.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		CDE032100C5E4B4CB26E1041 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		2D06A36BB16C4F07A000C1FA /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		57DA1657DD8B49B08B9A8B6A /* dilan.jpg */ = {isa = PBXFileReference; name = "dilan.jpg"; path = "../assets/images/dilan.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CC995322EE574E4AB971287A /* user-alt.svg */ = {isa = PBXFileReference; name = "user-alt.svg"; path = "../assets/images/user-alt.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		70A50E26ECC14EEF99727367 /* arrow-left.svg */ = {isa = PBXFileReference; name = "arrow-left.svg"; path = "../assets/images/arrow-left.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5EF7EA46FA43417F9A37EE4A /* blank-star.svg */ = {isa = PBXFileReference; name = "blank-star.svg"; path = "../assets/images/blank-star.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1E46BBE0EA1E439FA2653528 /* chart-line.svg */ = {isa = PBXFileReference; name = "chart-line.svg"; path = "../assets/images/chart-line.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CC6745027B6A412FBD713A78 /* clock.svg */ = {isa = PBXFileReference; name = "clock.svg"; path = "../assets/images/clock.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DCF4008974BA4CAC8009A3EF /* gold-star.svg */ = {isa = PBXFileReference; name = "gold-star.svg"; path = "../assets/images/gold-star.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6248E26055CE44AF8E523414 /* heart.svg */ = {isa = PBXFileReference; name = "heart.svg"; path = "../assets/images/heart.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F47A5FA859C1404481FB7D8D /* inbox.svg */ = {isa = PBXFileReference; name = "inbox.svg"; path = "../assets/images/inbox.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		14690B2CEBC6472EA1B1DB26 /* tools.svg */ = {isa = PBXFileReference; name = "tools.svg"; path = "../assets/images/tools.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8FF461D2902B4D56B80D9D2E /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-BoldItalic.ttf"; path = "../assets/fonts/Poppins-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		48269F5B063E4ED9A7850651 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; name = "Poppins-Italic.ttf"; path = "../assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +314,18 @@
 				FD593E3233304A6DB771259D /* user-friends.svg */,
 				CDE032100C5E4B4CB26E1041 /* Poppins-Bold.ttf */,
 				2D06A36BB16C4F07A000C1FA /* Poppins-SemiBold.ttf */,
+				57DA1657DD8B49B08B9A8B6A /* dilan.jpg */,
+				CC995322EE574E4AB971287A /* user-alt.svg */,
+				70A50E26ECC14EEF99727367 /* arrow-left.svg */,
+				5EF7EA46FA43417F9A37EE4A /* blank-star.svg */,
+				1E46BBE0EA1E439FA2653528 /* chart-line.svg */,
+				CC6745027B6A412FBD713A78 /* clock.svg */,
+				DCF4008974BA4CAC8009A3EF /* gold-star.svg */,
+				6248E26055CE44AF8E523414 /* heart.svg */,
+				F47A5FA859C1404481FB7D8D /* inbox.svg */,
+				14690B2CEBC6472EA1B1DB26 /* tools.svg */,
+				8FF461D2902B4D56B80D9D2E /* Poppins-BoldItalic.ttf */,
+				48269F5B063E4ED9A7850651 /* Poppins-Italic.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -476,6 +512,18 @@
 				B4BFD852E3E445728DC9AD31 /* user-friends.svg in Resources */,
 				DCA6DA62D3DB49198A20E4FC /* Poppins-Bold.ttf in Resources */,
 				B298A7D04BD549A780499DC8 /* Poppins-SemiBold.ttf in Resources */,
+				87476F0E7DB84873B59A63C8 /* dilan.jpg in Resources */,
+				9C9031469BC74D52AFFE91A4 /* user-alt.svg in Resources */,
+				BE7F40EEAF2E4320BCEB79C2 /* arrow-left.svg in Resources */,
+				88FE7E56FB5E4E87B7F1AF26 /* blank-star.svg in Resources */,
+				29E55A91D93F4BB69C8C9D1E /* chart-line.svg in Resources */,
+				C9C281EC03334CF794078CA7 /* clock.svg in Resources */,
+				9363C8EE674E48338F7D85A7 /* gold-star.svg in Resources */,
+				C3BA1A6CF4C14979AF03A78D /* heart.svg in Resources */,
+				10A4F66555C14245A7557728 /* inbox.svg in Resources */,
+				C41F2B39BCA34E9D89EDB502 /* tools.svg in Resources */,
+				219755B478E9412C8187B820 /* Poppins-BoldItalic.ttf in Resources */,
+				6550623DF41242C2B527A168 /* Poppins-Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

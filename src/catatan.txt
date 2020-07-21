@@ -1,3 +1,27 @@
 TODO:
 
-filter data on 'Most Popular' Display.
+1. filter data on 'Most Popular' Display. ###Done! With Algorithm on state####
+2. show user detail when isLoggedin
+    -avatar, ##DONE
+    -username, ##DONE
+    -rating of member (based on activity statistic e.g successful book transactions)
+    -message of rating result
+    -options bar: loved, history, inbox, statistic, settings
+    -logout button ##DONE
+3. search result on screen
+    -
+
+4. filter result
+    -search bar ###Done
+    -back button ###Done
+    -BookType and Genre button ###Done
+    -total result ###Done
+    -display as cards ###Done
+    -slideUpPanel to show another books {ONGOING}
+
+
+
+PROBS:
+
+1. time out while fetching comic book
+2. comic fetch algorithm affecting the redux state; data reduced ###case closed###

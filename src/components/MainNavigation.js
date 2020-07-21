@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-// import { NavigationContainer } from '@react-navigation/native'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import HomeLogo from '../../assets/images/home.svg';
 import SearchLogo from '../../assets/images/search.svg';
 import FriendsLogo from '../../assets/images/user-friends.svg';
@@ -16,7 +15,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 
 
-const Tab = createMaterialTopTabNavigator()
+// const Tab = createMaterialTopTabNavigator()
 
 
 export default MainNavigation = () =>{

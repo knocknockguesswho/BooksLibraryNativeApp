@@ -33,9 +33,8 @@ class Home extends Component{
 
 
 
-  async componentDidMount(){
-    await this._getBooks();
-    console.log(this.props.Auth)
+  componentDidMount(){
+    this._getBooks();
   }
 
   render(){

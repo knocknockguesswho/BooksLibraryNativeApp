@@ -17,12 +17,11 @@ import {
   Animated
 } from 'react-native';
 
-const SearchResult = (props) =>{
+const FilterResult = (props) =>{
 
   const [data, setData] = useState({
     type: props.route.params.data.type,
-    genre: props.route.params.data.genre,
-    searchInput: ''
+    genre: props.route.params.data.genre
   });
 
   const filterData = props.Interface.data.filter(book=>{
@@ -30,7 +29,7 @@ const SearchResult = (props) =>{
   });
   
   const handleGoBack = () =>{
-    props.navigation.navigate('Home');
+    props.navigation.navigate('Home')
   };
 
 
@@ -282,4 +281,4 @@ const mapStateToProps = state =>({
   Interface: state.Interface
 })
 
-export default connect(mapStateToProps)(SearchResult)
+export default connect(mapStateToProps)(FilterResult)

@@ -19,7 +19,6 @@ export default Carousel = (props) =>{
   }, [props])
 
   const interfaceData = props.Interface.data
-
   return(
     <>
     <Text style={styles.carouselTitle}>Most Popular</Text>

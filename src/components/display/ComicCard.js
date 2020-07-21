@@ -24,7 +24,7 @@ export default ComicCard = (props) =>{
   const removeDuplicate = dataSource.reduce((acc, current)=>{
     const dupl = acc.find(data => data.genre === current.genre);
     if(!dupl){
-      return acc.concat([current])
+      return acc.concat([current]);
     } else{
       return acc
     }
@@ -32,9 +32,9 @@ export default ComicCard = (props) =>{
 
   useEffect(()=>{
     if(algorithm.maxDataFetch>removeDuplicate.length){
-      setAlgorithm({...algorithm, maxDataFetch: algorithm.filteredData.length})
+      setAlgorithm({...algorithm, maxDataFetch: algorithm.filteredData.length});
     } else{
-      setAlgorithm({...algorithm, maxDataFetch: 3})
+      setAlgorithm({...algorithm, maxDataFetch: 3});
     };
 
     setAlgorithm({...algorithm, filteredData: removeDuplicate.filter((data, index)=>{
@@ -52,7 +52,9 @@ export default ComicCard = (props) =>{
       <View style={styles.cardContainer}>
         {algorithm.filteredData.map((data, index)=>{
           return(
-            <TouchableOpacity key={index} activeOpacity={.9} style={styles.card}>
+            <TouchableOpacity onPress={()=>props.navigation.navigate('FilterResult', {
+                data: data
+              })} key={index} activeOpacity={.9} style={styles.card}>
               <View style={styles.cardImageContent}>
               <Image 
                 style={{flex: 1, width: null, height: null, resizeMode:'cover'}}
