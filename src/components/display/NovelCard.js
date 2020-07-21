@@ -40,7 +40,7 @@ export default NovelCard = (props) =>{
       </View>
       <View style={styles.cardContainer}>
           <TouchableOpacity 
-            onPress={()=>props.navigation.navigate('FilterResult', {
+            onPress={()=>props.navigation.push('FilterResult', {
               data: romanceCategory[romanceCategory.length-1]
             })} activeOpacity={.9} style={styles.card}>
             <View style={styles.cardImageContent}>
@@ -54,7 +54,7 @@ export default NovelCard = (props) =>{
             </View>
           </TouchableOpacity>
           <TouchableOpacity 
-            onPress={()=>props.navigation.navigate('FilterResult', {
+            onPress={()=>props.navigation.push('FilterResult', {
               data: politicCategory[politicCategory.length-1]
             })} activeOpacity={.9} style={styles.card}>
             <View style={styles.cardImageContent}>
@@ -68,7 +68,7 @@ export default NovelCard = (props) =>{
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={()=>props.navigation.navigate('FilterResult', {
+            onPress={()=>props.navigation.push('FilterResult', {
               data: comedyCategory[comedyCategory.length-1]
             })} activeOpacity={.9} style={styles.card}>
             <View style={styles.cardImageContent}>
@@ -102,7 +102,8 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     elevation: 2,
     borderRadius: 2,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    overflow: 'hidden'
   },
   cardContainer:{
     width: '100%',

@@ -52,7 +52,7 @@ export default ComicCard = (props) =>{
       <View style={styles.cardContainer}>
         {algorithm.filteredData.map((data, index)=>{
           return(
-            <TouchableOpacity onPress={()=>props.navigation.navigate('FilterResult', {
+            <TouchableOpacity onPress={()=>props.navigation.push('FilterResult', {
                 data: data
               })} key={index} activeOpacity={.9} style={styles.card}>
               <View style={styles.cardImageContent}>
@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     elevation: 2,
     borderRadius: 2,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    overflow: 'hidden'
   },
   cardContainer:{
     width: '100%',

@@ -3,29 +3,34 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 import LoginForm from '../components/form/Login';
 import Profile from '../components/display/Profile';
 import { 
+  Text,
   View, 
   StyleSheet, 
   Dimensions,
   Animated,
+  TouchableOpacity
 } from 'react-native';
+import { log } from 'react-native-reanimated';
 
 
 const SlideUp = (props) =>{
 
 
-  const draggedValue = new Animated.Value(50);
+  const draggedValue = new Animated.Value(props.bottom);
   const ModalRef = useRef(null);
 
+
+  console.log(props)
   return(
     <>
       <View style={styles.sheetContainer}>
         <SlidingUpPanel
         ref={ModalRef}
-        draggableRange={{top: height-350, bottom: 50}}
+        draggableRange={{top: height-props.top, bottom: props.bottom}}
         animatedValue={draggedValue}
         backdropOpacity={0}
-        snappingPoints={[50]}
-        height={height - 10}
+        snappingPoints={[height -10]}
+        height={height}
         friction={.4}
         >
           <View style={styles.sheetContent}>

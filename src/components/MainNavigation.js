@@ -18,7 +18,7 @@ import * as Animatable from 'react-native-animatable';
 // const Tab = createMaterialTopTabNavigator()
 
 
-export default MainNavigation = () =>{
+export default MainNavigation = (props) =>{
   
   const [toggleHome, setToggleHome] = useState(true);
   const [toggleSearch, setToggleSearch] = useState(false);
@@ -41,6 +41,10 @@ export default MainNavigation = () =>{
     setToggleSearch(false);
     setToggleHome(false);
   }
+
+  const [search, setSearch] = useState({
+    input: ''
+  })
 
   return(
     // <Tab.Navigator>
@@ -69,7 +73,7 @@ export default MainNavigation = () =>{
       </View>
       {toggleSearch? 
       <Animatable.View animation="slideInDown" duration={200} style={styles.searchBarContainer}>
-        <TextInput style={{textAlign: 'center'}} placeholder='Search' />
+        <TextInput onSubmitEditing={()=>props.navigation.push('SearchResult', {data: search.input})} value={search.input} onChangeText={(value)=>setSearch({...search, input: value})} style={{textAlign: 'center'}} placeholder='Search' />
       </Animatable.View> :
       <View></View>
       }

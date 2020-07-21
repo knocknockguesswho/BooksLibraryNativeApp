@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -33,7 +34,7 @@ class Home extends Component{
 
 
 
-  componentDidMount(){
+  async componentDidMount(){
     this._getBooks();
   }
 
@@ -50,7 +51,7 @@ class Home extends Component{
           }
         </View>
         <View style={styles.footer}>
-          <SlideUp {...this.props}/>
+          <SlideUp {...this.props} top={350} bottom={50}/>
         </View>
       </View>
       </>

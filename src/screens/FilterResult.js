@@ -27,16 +27,24 @@ const FilterResult = (props) =>{
   const filterData = props.Interface.data.filter(book=>{
     return book && book.type === data.type && book.genre === data.genre
   });
-  
+
   const handleGoBack = () =>{
-    props.navigation.navigate('Home')
+    if(isEverSearch.status === true){
+      props.navigation.push('Home');
+    }
+    props.navigation.navigate('Home');
   };
 
 
   const [search, setSearch] = useState(false);
+  const [isEverSearch, setIsEverSearch] = useState({
+    status: false,
+    input: ''
+  })
 
   const handleSearch = () =>{
     setSearch(!search)
+    setIsEverSearch({...isEverSearch, status: !isEverSearch.status})
     setDisplaySheet({...displaySheet, bottom: 0})
   };
   
@@ -45,17 +53,19 @@ const FilterResult = (props) =>{
     genre: false
   });
 
-  const handleScroll = () =>{
+  const [genre, setGenre] = useState(false)
+  const [bookType, setBookType] = useState(false)
+
+  const handleDrag = () =>{
     setDisplaySheet({...displaySheet, bottom: 0})
   }
 
   const handleBookTypeButton = () =>{
-    setDisable({...disable, bookType: !disable.bookType})
-    console.log(filterData)
+    setBookType(!bookType)
   };
-
+  
   const handleGenreButton = () =>{
-    setDisable({...disable, genre: !disable.genre})
+    setGenre(!genre)
   };
 
   const [displaySheet, setDisplaySheet] = useState({
@@ -75,14 +85,14 @@ const FilterResult = (props) =>{
             <BackButton width={20} height={20}/>
         </TouchableOpacity>
         <View style={styles.searchContainer}>
-          <TextInput onFocus={handleSearch} onBlur={handleDisplaySheet} style={{textAlign: 'center'}} placeholder='Search' />
+          <TextInput value={isEverSearch.input} onChangeText={(value)=>setIsEverSearch({...isEverSearch, input: value})} onSubmitEditing={()=> props.navigation.push('SearchResult', {data: isEverSearch.input})} onFocus={handleSearch} onBlur={handleDisplaySheet} style={{textAlign: 'center'}} placeholder='Search' />
           <SearchLogo width={15} height={15} style={search? styles.searchOnFocus : styles.searchLogo}/>
         </View>
       </View>
-      <ScrollView onScrollBeginDrag={handleScroll} onScrollEndDrag={handleDisplaySheet} showsVerticalScrollIndicator={false} style={styles.main}>
+      <ScrollView onScrollBeginDrag={handleDrag} onScrollEndDrag={handleDisplaySheet} showsVerticalScrollIndicator={false} style={styles.main}>
         <View style={styles.mainHeader}>
           <View style={{flexDirection: 'row', alignItems:'center'}}>
-            {disable.bookType? 
+            {bookType? 
               <TouchableOpacity onPress={handleBookTypeButton}  style={styles.bookTypeButtonDISABLED}>
                 <Text style={{fontFamily:'Poppins-Bold', color: 'white', fontSize: 10}}>{data.type}</Text>
               </TouchableOpacity> :
@@ -90,7 +100,7 @@ const FilterResult = (props) =>{
                 <Text style={{fontFamily:'Poppins-Bold', color: 'white', fontSize: 10}}>{data.type}</Text>
               </TouchableOpacity>
             }
-            {disable.genre? 
+            {genre? 
               <TouchableOpacity onPress={handleGenreButton} style={styles.genreButtonDISABLED}>
                 <Text style={{fontFamily:'Poppins-Bold', color: 'white', fontSize: 10}}>{data.genre}</Text>
               </TouchableOpacity> :
@@ -104,7 +114,7 @@ const FilterResult = (props) =>{
         <View style={{marginBottom: displaySheet.bottom + 20}}>
           {filterData.map((book, index)=>{
             return (
-              <TouchableOpacity key={index} activeOpacity={.8} style={styles.cardContainer}>
+              <TouchableOpacity onPress={()=>props.navigation.navigate('BookDetail', {data: book, routeName: props.route.name})} key={index} activeOpacity={.8} style={styles.cardContainer}>
                 <View style={styles.cardImage}>
                   <Image 
                     style={{flex: 1, width: null, height: null, resizeMode:'cover'}}
@@ -166,7 +176,6 @@ const styles = StyleSheet.create({
     width: '80%',
     alignSelf: 'center',
     borderRadius: 50,
-    marginTop: -20,
   },
   searchLogo:{
     marginTop: -27,

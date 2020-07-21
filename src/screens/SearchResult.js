@@ -4,6 +4,7 @@ import SearchLogo from '../../assets/images/search.svg';
 import BackButton from '../../assets/images/arrow-left.svg';
 import GoldStar from '../../assets/images/gold-star.svg';
 import * as Animatable from 'react-native-animatable';
+import {GetBooks} from '../redux/actions/Interface';
 import {connect} from 'react-redux';
 import {
   Text,
@@ -20,44 +21,41 @@ import {
 const SearchResult = (props) =>{
 
   const [data, setData] = useState({
-    type: props.route.params.data.type,
-    genre: props.route.params.data.genre,
-    searchInput: ''
+    searchInput: props.route.params.data,
+    localSearchInput: ''
   });
 
-  const filterData = props.Interface.data.filter(book=>{
-    return book && book.type === data.type && book.genre === data.genre
+  //DECIDE
+  const globalFilterData = props.Interface.data.filter(book=>{
+    return book.title.toLowerCase().indexOf(data.searchInput.toLowerCase()) !== -1 || book.author.toLowerCase().indexOf(data.searchInput.toLowerCase()) !== -1
   });
+  const localFilterData = props.Interface.data.filter(book=>{
+    book.title.toLowerCase().indexOf(data.localSearchInput.toLowerCase()) !== -1 || book.author.toLowerCase().indexOf(data.localSearchInput.toLowerCase()) !== -1
+  });
+  let filterData = localSearch ? localFilterData : globalFilterData
+  ////////
+
+
   
   const handleGoBack = () =>{
-    props.navigation.navigate('Home');
-  };
-
-
-  const [search, setSearch] = useState(false);
-
-  const handleSearch = () =>{
-    setSearch(!search)
-    setDisplaySheet({...displaySheet, bottom: 0})
+    setData({...data, localSearchInput: '', searchInput: ''});
+    props.navigation.push('Home');
   };
   
-  const [disable, setDisable] = useState({
-    bookType: false,
-    genre: false
-  });
+  const [search, setSearch] = useState(false);
+  
+  const [localSearch, setLocalSearch] = useState(false);
+  const handleSearch = () =>{
+    setSearch(!search);
+    setLocalSearch(!localSearch);
+    setDisplaySheet({...displaySheet, bottom: 0});
+  };
 
-  const handleScroll = () =>{
+  const handleDrag = () =>{
     setDisplaySheet({...displaySheet, bottom: 0})
   }
 
-  const handleBookTypeButton = () =>{
-    setDisable({...disable, bookType: !disable.bookType})
-    console.log(filterData)
-  };
-
-  const handleGenreButton = () =>{
-    setDisable({...disable, genre: !disable.genre})
-  };
+  console.log(props)
 
   const [displaySheet, setDisplaySheet] = useState({
     bottom: 75
@@ -76,36 +74,27 @@ const SearchResult = (props) =>{
             <BackButton width={20} height={20}/>
         </TouchableOpacity>
         <View style={styles.searchContainer}>
-          <TextInput onFocus={handleSearch} onBlur={handleDisplaySheet} style={{textAlign: 'center'}} placeholder='Search' />
+
+
+          <TextInput value={data.localSearchInput} onChangeText={(value)=>setData({...data, localSearchInput: value})} onSubmitEditing={()=>props.navigation.push('SearchResult', {data: data.localSearchInput})} onFocus={handleSearch} onBlur={handleDisplaySheet} style={{textAlign: 'center'}} placeholder='Search' />
+
+
+
           <SearchLogo width={15} height={15} style={search? styles.searchOnFocus : styles.searchLogo}/>
         </View>
       </View>
-      <ScrollView onScrollBeginDrag={handleScroll} onScrollEndDrag={handleDisplaySheet} showsVerticalScrollIndicator={false} style={styles.main}>
+      <ScrollView onScrollBeginDrag={handleDrag} onScrollEndDrag={handleDisplaySheet} showsVerticalScrollIndicator={false} style={styles.main}>
         <View style={styles.mainHeader}>
-          <View style={{flexDirection: 'row', alignItems:'center'}}>
-            {disable.bookType? 
-              <TouchableOpacity onPress={handleBookTypeButton}  style={styles.bookTypeButtonDISABLED}>
-                <Text style={{fontFamily:'Poppins-Bold', color: 'white', fontSize: 10}}>{data.type}</Text>
-              </TouchableOpacity> :
-              <TouchableOpacity onPress={handleBookTypeButton} style={styles.bookTypeButton}>
-                <Text style={{fontFamily:'Poppins-Bold', color: 'white', fontSize: 10}}>{data.type}</Text>
-              </TouchableOpacity>
-            }
-            {disable.genre? 
-              <TouchableOpacity onPress={handleGenreButton} style={styles.genreButtonDISABLED}>
-                <Text style={{fontFamily:'Poppins-Bold', color: 'white', fontSize: 10}}>{data.genre}</Text>
-              </TouchableOpacity> :
-              <TouchableOpacity onPress={handleGenreButton} style={styles.genreButton}>
-                <Text style={{fontFamily:'Poppins-Bold', color: 'white', fontSize: 10}}>{data.genre}</Text>
-              </TouchableOpacity>
-            }
+          <View style={{flexDirection: 'row', alignItems:'center', marginLeft: -150, marginTop: 5}}>
+            <Text style={{fontFamily: 'Poppins-Regular'}}>Search: </Text>
+            <Text style={{fontFamily: 'Poppins-Italic'}}>{data.searchInput}</Text>
           </View>
-            <Text style={{fontFamily: 'Poppins-Italic', fontSize: 10, alignSelf: 'center'}}>Total Result: {filterData.length}</Text>
+            <Text style={{fontFamily: 'Poppins-Italic', fontSize: 10, alignSelf: 'center', marginRight: -150}}>Total Result: {filterData.length}</Text>
         </View>
         <View style={{marginBottom: displaySheet.bottom + 20}}>
           {filterData.map((book, index)=>{
             return (
-              <TouchableOpacity key={index} activeOpacity={.8} style={styles.cardContainer}>
+              <TouchableOpacity onPress={()=>props.navigation.navigate('BookDetail', {data: book, routeName: props.route.name})} key={index} activeOpacity={.8} style={styles.cardContainer}>
                 <View style={styles.cardImage}>
                   <Image 
                     style={{flex: 1, width: null, height: null, resizeMode:'cover'}}
@@ -167,7 +156,6 @@ const styles = StyleSheet.create({
     width: '80%',
     alignSelf: 'center',
     borderRadius: 50,
-    marginTop: -20,
   },
   searchLogo:{
     marginTop: -27,
@@ -280,6 +268,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state =>({
   Interface: state.Interface
-})
+});
 
-export default connect(mapStateToProps)(SearchResult)
+const mapDispatchToProps = {GetBooks}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResult)
