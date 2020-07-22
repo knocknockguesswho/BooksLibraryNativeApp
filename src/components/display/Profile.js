@@ -4,6 +4,7 @@ import UserAlt_LOGO from '../../../assets/images/user-alt.svg';
 import BlankStar from '../../../assets/images/blank-star.svg';
 import ChartLine from '../../../assets/images/chart-line.svg';
 import Clock from '../../../assets/images/clock.svg';
+import DatabaseLogo from '../../../assets/images/database.svg';
 import GoldStar from '../../../assets/images/gold-star.svg';
 import Heart from '../../../assets/images/heart.svg';
 import Inbox from '../../../assets/images/inbox.svg';
@@ -32,24 +33,23 @@ const Profile = (props)=>{
     props.navigation.push('Home');
   }
 
-  // for(let i = 0; i < rating.userRating; i++){
-  //   rating.ratingStar.push(
-  //     <GoldStar key={i} width={20} height={20}/>
-  //   )
-  // }
+  console.log(props)
   
   return(
     <>
       <View style={styles.container}>
         <View style={styles.avatarContainer}>
-          {/* {avatarExixst? 
-          <View style={styles.avatar}>
-            <UserAlt_LOGO width={40} height={40} />
-          </View> :
-          } */}
-          <View style={styles.avatar}>
-            <UserAlt_LOGO width={40} height={40} />
-          </View>
+          {props.Auth.data.avatar === '' ? 
+            <View style={styles.avatar}>
+              <UserAlt_LOGO width={40} height={40} />
+            </View> :
+            <View style={styles.avatarExist}>
+              <Image 
+                style={{flex: 1, width: null, height: null, resizeMode:'cover', borderRadius: 100}}
+                source={{uri: `http://192.168.1.6:3000/uploads/${props.Auth.data.avatar}`}}
+              />
+            </View>
+          }
           <View style={{height: '20%', paddingTop: 5}}>
             <Text style={styles.username}>{props.Auth.data.fullname}</Text>
           </View>
@@ -67,9 +67,12 @@ const Profile = (props)=>{
         </View>
         <View style={styles.optionsBarContainer}>
           <View style={styles.optionsBar}>
-            <TouchableOpacity style={styles.options} >
-              <Heart width={30} height={30} />
-            </TouchableOpacity>
+            {props.Auth.data.role === 1 ? 
+              <TouchableOpacity onPress={()=>props.navigation.push('CRUD')} style={styles.options} >
+                <DatabaseLogo width={30} height={30} />
+              </TouchableOpacity> :
+              <></>
+            }
             <TouchableOpacity style={styles.options}>
               <Clock width={30} height={30} />
             </TouchableOpacity>
@@ -114,9 +117,18 @@ const styles = StyleSheet.create({
     width: 90,
     alignSelf: "center",
     marginTop: 35,
-    backgroundColor: 'transparent',
+    // backgroundColor: 'transparent',
     alignItems: 'center',
     paddingTop: 20
+  },
+  avatarExist:{
+    borderWidth: 1, 
+    borderColor: '#188FDE', 
+    borderRadius: 100, 
+    height: 90, 
+    width: 90,
+    alignSelf: "center",
+    marginTop: 35
   },
   username:{
     fontFamily: 'Poppins-Regular',
@@ -137,7 +149,6 @@ const styles = StyleSheet.create({
   },
   optionsBarContainer:{
     flex: .12,
-    // backgroundColor: 'green',
     alignItems: 'center',
     justifyContent: 'flex-end'
   },

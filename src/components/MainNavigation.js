@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import HomeLogo from '../../assets/images/home.svg';
 import SearchLogo from '../../assets/images/search.svg';
-import FriendsLogo from '../../assets/images/user-friends.svg';
+import ChatLogo from '../../assets/images/comment-dots.svg';
 import { 
   Text, 
   View, 
@@ -67,7 +67,7 @@ export default MainNavigation = (props) =>{
       </TouchableOpacity>
       <TouchableOpacity onPress={handleToggleFriends}>
         <View style={toggleFriends? styles.friendsNavActive : styles.friendsNavInactive}>
-          <FriendsLogo width={20} height={20} style={{marginRight: 15}} />
+          <ChatLogo width={20} height={20} style={{marginRight: 15}} />
         </View>
       </TouchableOpacity>
       </View>
@@ -102,7 +102,7 @@ export default MainNavigation = (props) =>{
     //     <Tab.Screen name='FriendList' component={FriendList}>
     //       <TouchableOpacity onPress={handleToggleFriends}>
     //         <View style={toggleFriends? styles.friendsNavActive : styles.friendsNavInactive}>
-    //           <FriendsLogo width={20} height={20} style={{marginRight: 15}} />
+    //           <ChatLogo width={20} height={20} style={{marginRight: 15}} />
     //         </View>
     //       </TouchableOpacity>
     //     </Tab.Screen>

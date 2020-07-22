@@ -4,12 +4,11 @@ TODO:
 2. show user detail when isLoggedin
     -avatar, ##DONE
     -username, ##DONE
-    -rating of member (based on activity statistic e.g successful book transactions)
-    -message of rating result
+    -rating of member (based on activity statistic e.g successful book transactions) ##DONE
+    -message of rating result ##DONE
     -options bar: loved, history, inbox, statistic, settings
     -logout button ##DONE
-3. search result on screen
-    -
+3. search result on screen #DONE
 
 4. filter result
     -search bar ###Done
@@ -17,8 +16,14 @@ TODO:
     -BookType and Genre button ###Done
     -total result ###Done
     -display as cards ###Done
-    -slideUpPanel to show another books {ONGOING}
+    -slideUpPanel to show another books #DONE
+    -add category card to slideUpPanel
+    -add book card with same genre to the parent
 
+5. borrow book
+    -every borrow activity should be store to history of borrow (username, book, borrowed_at, returned_at)
+
+6. Data CRUD for server admin
 
 
 PROBS:

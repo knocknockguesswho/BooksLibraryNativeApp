@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import GoldStar from '../../assets/images/gold-star.svg';
 import BackButton from '../../assets/images/arrow-left-white.svg';
@@ -19,13 +19,49 @@ import {
 const BookDetail = (props) =>{
 
   const test = () =>{
-    console.log(props)
+    console.log(algorithm.dataSource)
   }
+
+  const [algorithm, setAlgorithm] = useState({
+    filteredData: [],
+    maxDataFetch: 3,
+    dataType: props.route.params.data.type
+  });
+
+  let dataSource = props.Interface.data.filter((data, index)=>{
+    return data.type === algorithm.dataType
+  });
+  const removeDuplicate = dataSource.reduce((acc, current)=>{
+    const dupl = acc.find(data => data.genre === current.genre);
+    if(!dupl){
+      return acc.concat([current]);
+    } else{
+      return acc
+    }
+  }, []);
+
+  useEffect(()=>{
+    if(algorithm.maxDataFetch>removeDuplicate.length){
+      setAlgorithm({...algorithm, maxDataFetch: algorithm.filteredData.length});
+    } else{
+      setAlgorithm({...algorithm, maxDataFetch: 3});
+    };
+
+    setAlgorithm({...algorithm, filteredData: removeDuplicate.filter((data, index)=>{
+      return data && index < algorithm.maxDataFetch
+    })});
+  }, [props]);
+
+
+
+
 
 
   const [data, setData] = useState({
     image: props.route.params.data.image,
-    genre: props.route.params.data.genre
+    genre: props.route.params.data.genre,
+    title: props.route.params.data.title,
+    type: props.route.params.data.type
   })
 
 
@@ -39,9 +75,18 @@ const BookDetail = (props) =>{
   const draggedValue = new Animated.Value(220);
   const modalRef = useRef(null);
 
-  // const handleDisplaySheet = () =>{
-  //   setDisplaySheet({...displaySheet, bottom: 260})
-  // }
+
+
+  //map on vertical scroll of slidinguppanel
+  const filterBook = props.Interface.data.filter((book, index)=>{
+    return book.type === data.type || book.genre === data.genre
+  })
+  //////////////////////////////////////////
+
+
+
+  const titleFont = data.title.length < 24 ? 18 : 15
+
   return(
   <>
     <View style={styles.banner}>
@@ -63,7 +108,7 @@ const BookDetail = (props) =>{
       <View style={{flex: 1, width: '80%', alignSelf: 'center'}}>
         <View style={{flex: .5, flexDirection: 'row'}}>
           <View style={{flex: 4}}>
-            <Text style={styles.title}>{props.route.params.data.title}</Text>
+            <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: titleFont, marginBottom: -7}}>{props.route.params.data.title}</Text>
             <Text style={styles.author}>Author: {props.route.params.data.author}</Text>
             <View style={styles.genre_and_type}>
               <View style={styles.genre}>
@@ -87,7 +132,7 @@ const BookDetail = (props) =>{
             <Text style={{fontFamily: 'Poppins-Regular', fontSize: 11}}>{props.route.params.data.description}</Text>
           </View>
           <View style={{flex: 1}}>
-            <TouchableOpacity activeOpacity={.6} style={styles.borrowButton}>
+            <TouchableOpacity onPress={test} activeOpacity={.6} style={styles.borrowButton}>
               <Text style={{fontFamily: 'Poppins-Bold', fontSize: 12, textAlign: 'center', color: 'white'}}>Borrow</Text>
             </TouchableOpacity>
           </View>
@@ -108,18 +153,24 @@ const BookDetail = (props) =>{
           <ScrollView style={styles.sheetContent}>
             <View style={styles.sheetHandle}></View>
             <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12, alignSelf: 'flex-start'}}>See Other Genre:</Text>
-            <ScrollView horizontal={true}>
-              <TouchableOpacity style={styles.sheetCard}>
-                <View style={{flex: 1.5}}>
-                  <Image 
-                    style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
-                    source={{uri: `http://192.168.1.6:3000/uploads/${data.image}`}}
-                  />
-                </View>
-                <View style={{flex: 3}}>
-                  <Text style={{alignSelf:'center', fontFamily: 'Poppins-Regular', paddingTop: 10, fontSize: 10}}>{`${data.genre} Category`}</Text>
-                </View>
-              </TouchableOpacity>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              {algorithm.filteredData.map((data, index)=>{
+                return (
+                  <TouchableOpacity onPress={()=>props.navigation.push      ('FilterResult', {
+                    data: data
+                  })} style={styles.sheetCard}>
+                    <View style={{flex: 1.5}}>
+                      <Image 
+                        style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
+                        source={{uri: `http://192.168.1.6:3000/uploads/${data.image}`}}
+                      />
+                    </View>
+                    <View style={{flex: 3}}>
+                      <Text style={{alignSelf:'center', fontFamily: 'Poppins-Regular', paddingTop: 10, fontSize: 10}}>{`${data.genre} Category`}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )
+              })}
             </ScrollView>
           </ScrollView>
         </SlidingUpPanel>
@@ -144,11 +195,6 @@ const styles = StyleSheet.create({
   detailsContainer:{
     flex: 1.5,
     paddingTop: 10
-  },
-  title:{
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 18,
-    marginBottom: -7
   },
   author:{
     fontFamily: 'Poppins-Italic',
@@ -220,7 +266,7 @@ const styles = StyleSheet.create({
     marginRight: 25,
     borderRadius: 5,
     overflow: 'hidden',
-    borderWidth: .3,
+    borderWidth: .2,
     borderColor: '#424242'
   }
 })

@@ -21,7 +21,7 @@ const FilterResult = (props) =>{
 
   const [data, setData] = useState({
     type: props.route.params.data.type,
-    genre: props.route.params.data.genre
+    genre: props.route.params.data.genre,
   });
 
   const filterData = props.Interface.data.filter(book=>{
@@ -47,11 +47,6 @@ const FilterResult = (props) =>{
     setIsEverSearch({...isEverSearch, status: !isEverSearch.status})
     setDisplaySheet({...displaySheet, bottom: 0})
   };
-  
-  const [disable, setDisable] = useState({
-    bookType: false,
-    genre: false
-  });
 
   const [genre, setGenre] = useState(false)
   const [bookType, setBookType] = useState(false)

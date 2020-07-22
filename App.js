@@ -8,6 +8,9 @@ import Signup from './src/screens/Signup';
 import SearchResult from './src/screens/SearchResult';
 import BookDetail from './src/screens/BookDetail';
 import FilterResult from './src/screens/FilterResult';
+import CRUD from './src/screens/CRUD';
+import AddData from './src/screens/AddData';
+import EditData from './src/screens/EditData';
 
 import Dashboard from './src/tab/Dashboard';
 import Search from './src/tab/Search';
@@ -47,6 +50,9 @@ const App = () => {
               <Stack.Screen name='SearchResult' component={SearchResult} />
               <Stack.Screen name='BookDetail' component={BookDetail} />
               <Stack.Screen name='FilterResult' component={FilterResult} />
+              <Stack.Screen name='CRUD' component={CRUD} />
+              <Stack.Screen name='AddData' component={AddData} />
+              <Stack.Screen name='EditData' component={EditData} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
