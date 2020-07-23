@@ -4,6 +4,9 @@ import AddButton from '../../assets/images/plus-circle.svg';
 import GoldStar from '../../assets/images/gold-star.svg';
 import EditButton from '../../assets/images/edit.svg';
 import DeleteButton from '../../assets/images/trash-alt.svg';
+import FailPopUp from '../components/display/FailPopUp';
+import SuccessPopUp from '../components/display/SuccessPopUp';
+import {DeleteBook} from '../redux/actions/Interface'
 import {connect} from 'react-redux';
 import {
   Text,
@@ -21,8 +24,27 @@ class CRUD extends Component{
     super();
     this.state = {
       modalVisible: false,
-      itemWillDeleted: ''
+      itemWillDeletedTitle: '',
+      itemWillDeletedId: '',
+      isError: false,
+      isSuccess: false,
+      actionMsg: ''
     }
+  }
+
+  handleDeleteData = (event) =>{
+    event.preventDefault();
+    const token = this.props.Auth.data.token;
+    const id = this.state.itemWillDeletedId;
+    this.props.DeleteBook(token, id)
+    .then((res)=>{
+      console.log(res);
+      this.setState({modalVisible: false})
+      this.handleSuccessPopUp('Data has successfully deleted.')
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
   }
 
   handleGoBack =() =>{
@@ -32,13 +54,23 @@ class CRUD extends Component{
   handleModal = (item) =>{
     this.setState({
       modalVisible: !this.state.modalVisible,
-      itemWillDeleted: item
-    })
+      itemWillDeletedTitle: item.title,
+      itemWillDeletedId: item.id
+    });
+  }
+
+  handleSuccessPopUp = (res) =>{
+    this.setState({isSuccess: !this.state.isSuccess, actionMsg: res})
+    this.props.navigation.push('CRUD')
+  }
+
+  handleFailPopUp = (err) =>{
+    this.setState({isError: !this.state.isError, actionMsg: err})
   }
 
   
   render(){
-    // console.log(this.props)
+    console.log(this.props)
     const { modalVisible } = this.state;
     return(
       <>
@@ -98,7 +130,7 @@ class CRUD extends Component{
                       <TouchableOpacity onPress={()=>this.props.navigation.push('EditData', {book: book})}>
                         <EditButton width={20} height={20} />
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={()=>this.handleModal(book.title)}>
+                      <TouchableOpacity onPress={()=>this.handleModal(book)}>
                         <DeleteButton width={20} height={20} />
                       </TouchableOpacity>
                     </View>
@@ -116,18 +148,20 @@ class CRUD extends Component{
                 <View style={styles.modalContainer}>
                   <View>
                     <Text style={{fontFamily: 'Poppins-Bold', color: '#424242', fontSize: 20, textAlign:'center'}}>Are you sure want to delete this item?</Text>
-                    <Text style={{textAlign: 'center'}}>Title: {this.state.itemWillDeleted} </Text>
+                    <Text style={{textAlign: 'center'}}>Title: {this.state.itemWillDeletedTitle} </Text>
                   </View>
                   <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
                     <TouchableOpacity activeOpacity={.6} style={styles.cancelButton} onPress={()=>this.handleModal('')}>
                       <Text style={{fontFamily: 'Poppins-Regular', fontSize: 15, color: 'white', textAlign: "center", justifyContent: 'center'}}>Cancel</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={.6} style={styles.deleteButton}>
+                    <TouchableOpacity onPress={this.handleDeleteData} activeOpacity={.6} style={styles.deleteButton}>
                       <Text style={{fontFamily: 'Poppins-Regular', fontSize: 15, color: 'white', textAlign: 'center', justifyContent: 'center'}}>Delete</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
-              </Modal>  
+              </Modal>
+              <SuccessPopUp popup={this.handleSuccessPopUp} isSuccess={this.state.isSuccess} msg={this.state.actionMsg} />
+              <FailPopUp popup={this.handleFailPopUp} isError={this.state.isError} msg={this.state.actionMsg} navigation={this.props.navigation} />  
             </ScrollView>
             <Text style={{fontFamily: 'Poppins-Regular', fontSize: 8, marginTop: -10}}>Total Data: {this.props.Interface.data.length}</Text>   
           </View>
@@ -226,4 +260,8 @@ const mapStateToProps = state =>({
   Interface: state.Interface
 });
 
-export default connect(mapStateToProps)(CRUD)
+const mapDispatchToProps = {DeleteBook}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(CRUD)

@@ -25,7 +25,7 @@ class Signup extends Component{
         <TouchableOpacity style={{marginTop: 5, marginLeft: 5}} onPress={()=>this.props.navigation.navigate('Home')}>
           <HomeLogo width={30} height={30} />
         </TouchableOpacity>
-          <SignupForm />
+          <SignupForm navigation={this.props.navigation}/>
         </View>
       </>
     )

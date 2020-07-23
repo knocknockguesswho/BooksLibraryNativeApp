@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import BackButton from '../../assets/images/arrow-left.svg';
-import {AddBooks, GetAllGenre, GetAllAuthor, GetAllBookType} from '../redux/actions/Interface';
+import {EditBooks, GetAllGenre, GetAllAuthor, GetAllBookType} from '../redux/actions/Interface';
 import ImagePicker from 'react-native-image-picker';
+import SuccessPopUp from '../components/display/SuccessPopUp';
+import FailPopUp from '../components/display/FailPopUp';
 import {
   Text,
   View,
@@ -24,18 +26,31 @@ class EditData extends Component{
       genre: 0,
       author: 0,
       type: 0,
-      errorMsg_local: '',
-      isErrorStatus: false
+      actionMsg: '',
+      isError: false,
+      isSuccess: false
     }
   }
 
-  // handleAddData = (event) =>{
-  //   event.preventDefault();
-  //   const token = this.props.Auth.data.token
-  //   const formData = new FormData();
-  //   formData.append
-  //   this.props.AddBooks(token,)
-  // }
+  handleEditData = (event) =>{
+    event.preventDefault();
+    const token = this.props.Auth.data.token
+    const id = this.props.route.params.book.id
+    const formData = new FormData();
+    formData.append('title', this.state.title);
+    formData.append('description', this.state.description);
+    formData.append('genre', parseInt(this.state.genre));
+    formData.append('author', parseInt(this.state.author));
+    formData.append('image', this.state.image);
+    this.props.EditBooks(token, formData, id)
+    .then((res)=>{
+      console.log(res)
+      this.handleSuccessPopUp(res.action.type);
+    })
+    .catch((err)=>{
+      this.handleFailPopUp(err);
+    });
+  }
   
 
   handleGoBack =() =>{
@@ -81,6 +96,17 @@ class EditData extends Component{
     })
   }
 
+
+  handleSuccessPopUp = (res) =>{
+    this.setState({isSuccess: !this.state.isSuccess, actionMsg: res})
+    this.props.navigation.push('CRUD')
+  }
+
+  handleFailPopUp = (err) =>{
+    this.setState({isError: !this.state.isError, actionMsg: err})
+  }
+
+
   async componentDidMount(){
     await this.handleGetGenre();
     await this.handleGetAuthor();
@@ -89,14 +115,13 @@ class EditData extends Component{
   }
 
   render(){
-    console.log(this.props)
     return(
       <>
         <TouchableOpacity onPress={this.handleGoBack} style={{margin: 10}}>
           <BackButton width={20} height={20}/>
         </TouchableOpacity>
         <ScrollView>
-          <Text style={styles.formTitle}>EditData</Text>
+          <Text style={styles.formTitle}>Edit Data</Text>
           <View style={styles.formGroup}>
             <View>
               <Text style={{fontFamily:'Poppins-Regular', fontSize: 12, marginBottom: -8, marginLeft: 5}}>Title</Text>
@@ -170,9 +195,11 @@ class EditData extends Component{
               </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.AddButton} activeOpacity={.6}>
-            <Text style={{color: 'white', fontFamily: 'Poppins-Regular'}}>Add Data</Text>
+          <TouchableOpacity onPress={this.handleEditData} style={styles.AddButton} activeOpacity={.6}>
+            <Text style={{color: 'white', fontFamily: 'Poppins-Regular'}}>Edit Data</Text>
           </TouchableOpacity>
+          <SuccessPopUp popup={this.handleSuccessPopUp} isSuccess={this.state.isSuccess} msg={this.state.actionMsg} />
+          <FailPopUp popup={this.handleFailPopUp} isError={this.state.isError} msg={this.state.actionMsg} navigation={this.props.navigation} />
         </ScrollView>
       </>
     )
@@ -250,7 +277,7 @@ const mapStateToProps = state =>({
   Auth: state.Auth
 });
 
-const mapDispatchToProps = {AddBooks, GetAllGenre, GetAllAuthor, GetAllBookType};
+const mapDispatchToProps = {EditBooks, GetAllGenre, GetAllAuthor, GetAllBookType};
 
 export default connect(
   mapStateToProps,

@@ -59,7 +59,7 @@ export const GetAllBookType = (token) =>{
 
 export const AddBooks = (token, data) =>{
   return{
-    type: 'POSTBOOKS',
+    type: 'ADDBOOK',
     payload: axios(
       {
         method: 'POST',
@@ -71,5 +71,66 @@ export const AddBooks = (token, data) =>{
         }
       }
     )
+  }
+}
+
+export const EditBooks = (token, data, id) =>{
+  return{
+    type: 'EDITBOOK',
+    payload: axios(
+      {
+        method: 'PUT',
+        url: `http://192.168.1.6:3000/admin/${id}`,
+        data: data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: token
+        }
+      }
+    )
+  }
+}
+
+export const DeleteBook = (token, id)=>{
+  return{
+    type: 'DELETEBOOK',
+    payload: axios(
+      {
+      method: 'DELETE',
+      url: `http://192.168.1.6:3000/admin/${id}`,
+      headers: {
+        Authorization: token
+      }
+    })
+  }
+}
+
+
+export const BorrowBook = (token, id)=>{
+  return{
+    type: 'BORROWBOOK',
+    payload: axios(
+      {
+      method: 'PUT',
+      url: `http://192.168.1.6:3000/member/borrow/${id}`,
+      headers: {
+        Authorization: token
+      }
+    })
+  }
+}
+
+
+export const ReturnBook = (token, id)=>{
+  return{
+    type: 'RETURNBOOK',
+    payload: axios(
+      {
+      method: 'PUT',
+      url: `http://192.168.1.6:3000/member/return/${id}`,
+      headers: {
+        Authorization: token
+      }
+    })
   }
 }

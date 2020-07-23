@@ -2,6 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import GoldStar from '../../assets/images/gold-star.svg';
 import BackButton from '../../assets/images/arrow-left-white.svg';
+import SuccessPopUp from '../components/display/SuccessPopUp';
+import FailPopUp from '../components/display/FailPopUp';
+
+import {BorrowBook} from '../redux/actions/Interface'
 import * as Animatable from 'react-native-animatable';
 import {connect} from 'react-redux';
 import {
@@ -18,10 +22,7 @@ import {
 
 const BookDetail = (props) =>{
 
-  const test = () =>{
-    console.log(algorithm.dataSource)
-  }
-
+  
   const [algorithm, setAlgorithm] = useState({
     filteredData: [],
     maxDataFetch: 3,
@@ -39,21 +40,59 @@ const BookDetail = (props) =>{
       return acc
     }
   }, []);
-
+  
   useEffect(()=>{
     if(algorithm.maxDataFetch>removeDuplicate.length){
       setAlgorithm({...algorithm, maxDataFetch: algorithm.filteredData.length});
     } else{
       setAlgorithm({...algorithm, maxDataFetch: 3});
     };
-
+    
     setAlgorithm({...algorithm, filteredData: removeDuplicate.filter((data, index)=>{
       return data && index < algorithm.maxDataFetch
     })});
   }, [props]);
-
-
-
+  
+  
+  
+  const [popUp, setPopUp] = useState({
+    isError: false,
+    isSuccess: false,
+    actionMsg: ''
+  })
+  
+  const handleSuccessPopUp = () =>{
+    // this.setState({isSuccess: !this.state.isSuccess, actionMsg: res})
+    setPopUp({
+      ...popUp,
+      isSuccess: !popUp.isSuccess,
+      actionMsg: 'You have successfully borrowed the book. Have a nice day!'
+    })
+    props.navigation.push('Home');
+  }
+  
+  const handleFailPopUp = (err) =>{
+    setPopUp({
+      ...popUp,
+      isError: !popUp.isError,
+      actionMsg: props.Interface.errorMsg.data.data
+    })
+    // this.setState({isError: !this.state.isError, actionMsg: err})
+  }
+  
+  const handleBorrowBook = () =>{
+    const token = props.Auth.data.token
+    const book_id = props.route.params.data.id
+    props.BorrowBook(token, book_id)
+    .then((res)=>{
+      console.log(res);
+      handleSuccessPopUp();
+    })
+    .catch((err)=>{
+      console.log(err)
+      handleFailPopUp();
+    })
+  }
 
 
 
@@ -83,7 +122,7 @@ const BookDetail = (props) =>{
   })
   //////////////////////////////////////////
 
-
+  console.log(props.Auth.isLogin)
 
   const titleFont = data.title.length < 24 ? 18 : 15
 
@@ -132,12 +171,21 @@ const BookDetail = (props) =>{
             <Text style={{fontFamily: 'Poppins-Regular', fontSize: 11}}>{props.route.params.data.description}</Text>
           </View>
           <View style={{flex: 1}}>
-            <TouchableOpacity onPress={test} activeOpacity={.6} style={styles.borrowButton}>
-              <Text style={{fontFamily: 'Poppins-Bold', fontSize: 12, textAlign: 'center', color: 'white'}}>Borrow</Text>
-            </TouchableOpacity>
+
+            {props.Auth.isLogin ?
+              <TouchableOpacity onPress={handleBorrowBook} activeOpacity={.6} style={styles.borrowButton}>
+                <Text style={{fontFamily: 'Poppins-Bold', fontSize: 12, textAlign: 'center', color: 'white'}}>Borrow</Text>
+              </TouchableOpacity> :
+              <TouchableOpacity onPress={handleBorrowBook} activeOpacity={.6} style={styles.borrowButtonDisabled}>
+                <Text style={{fontFamily: 'Poppins-Bold', fontSize: 12, textAlign: 'center', color: 'white'}}>Borrow</Text>
+              </TouchableOpacity> 
+            }
+              
           </View>
         </View>
       </View>
+      <SuccessPopUp popup={handleSuccessPopUp} isSuccess={popUp.isSuccess} msg={popUp.actionMsg} />
+      <FailPopUp popup={handleFailPopUp} isError={popUp.isError} msg={popUp.actionMsg} navigation={props.navigation} />
     </View>
 
     <View style={styles.slidingUpOthersBookByGenre}>
@@ -156,7 +204,7 @@ const BookDetail = (props) =>{
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
               {algorithm.filteredData.map((data, index)=>{
                 return (
-                  <TouchableOpacity onPress={()=>props.navigation.push      ('FilterResult', {
+                  <TouchableOpacity key={index} onPress={()=>props.navigation.push      ('FilterResult', {
                     data: data
                   })} style={styles.sheetCard}>
                     <View style={{flex: 1.5}}>
@@ -235,6 +283,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center'
   },
+  borrowButtonDisabled:{
+    width: '80%',
+    height: 30,
+    backgroundColor: '#42424220',
+    alignSelf: 'center',
+    borderRadius: 8,
+    justifyContent: 'center'
+  },
   slidingUpOthersBookByGenre:{
     flex: 1,
     width: '100%',
@@ -272,7 +328,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state =>({
+  Auth: state.Auth,
   Interface: state.Interface
 });
 
-export default connect(mapStateToProps)(BookDetail);
+const mapDispatchToProps = {BorrowBook}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookDetail);

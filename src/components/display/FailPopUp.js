@@ -8,25 +8,22 @@ import {
   Dimensions
 } from 'react-native';
 
-export default SuccessPopUp = (props) =>{
+export default FailPopUp = (props) =>{
 
 
-  const [modalVisible, setModalVisible] = useState(props.isSuccess)
+  const [modalVisible, setModalVisible] = useState(props.isError)
 
 
   const handleModal = () =>{
     props.popup()
   }
 
-  modalVisible === true ? setTimeout(handleModal, 2000) : ''
-
-  console.log(props)
   return(
     <>
     <Modal
       animationType='fade'
       transparent={true}
-      visible={props.isSuccess}
+      visible={props.isError}
       onRequestClose={() => {
         Alert.alert("Modal has been closed.");
       }}
@@ -34,14 +31,13 @@ export default SuccessPopUp = (props) =>{
       <View style={styles.modalContainer}>
         <View>
           <Text style={{fontFamily: 'Poppins-Bold', color: '#424242', fontSize: 20, textAlign:'center'}}>{props.msg}</Text>
+          <Text style={{color: 'red', fontFamily: 'Poppins-Bold', fontSize: 30, textAlign:'center'}}>X</Text>
+          {/* <Text style={{textAlign: 'center'}}>Title: {this.state.itemWillDeleted} </Text> */}
         </View>
         <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
           <TouchableOpacity activeOpacity={.6} style={styles.cancelButton} onPress={handleModal}>
             <Text style={{fontFamily: 'Poppins-Regular', fontSize: 15, color: 'white', textAlign: "center", justifyContent: 'center'}}>Okay</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity activeOpacity={.6} style={styles.deleteButton}>
-            <Text style={{fontFamily: 'Poppins-Regular', fontSize: 15, color: 'white', textAlign: 'center', justifyContent: 'center'}}>Delete</Text>
-          </TouchableOpacity> */}
         </View>
       </View>
     </Modal>

@@ -3,6 +3,7 @@ import BackButton from '../../assets/images/arrow-left.svg';
 import {AddBooks, GetAllGenre, GetAllAuthor, GetAllBookType} from '../redux/actions/Interface';
 import ImagePicker from 'react-native-image-picker';
 import SuccessPopUp from '../components/display/SuccessPopUp';
+import FailPopUp from '../components/display/FailPopUp';
 import {
   Text,
   View,
@@ -16,7 +17,7 @@ import {
 import { connect } from 'react-redux';
 
 class AddData extends Component{
-  constructor(){
+  constructor(props){
     super();
     this.state = {
       image: null,
@@ -25,25 +26,30 @@ class AddData extends Component{
       genre: 0,
       author: 0,
       type: 0,
-      errorMsg_local: '',
-      isErrorStatus: false
+      actionMsg: '',
+      isError: false,
+      isSuccess: false
     }
   }
 
-  // handleAddData = (event) =>{
-  //   event.preventDefault();
-  //   const token = this.props.Auth.data.token
-  //   const formData = new FormData();
-  //   formData.append('title', this.state.title);
-  //   formData.append('description', this.state.description);
-  //   formData.append('genre', parseInt(this.state.genre));
-  //   formData.append('author', parseInt(this.state.author));
-  //   formData.append('image', this.state.image[0]);
-  //   this.props.AddBooks(token, formData)
-  //   .then((res)=>{
-  //     this.props.
-  //   })
-  // }
+  handleAddData = (event) =>{
+    event.preventDefault();
+    const token = this.props.Auth.data.token
+    const formData = new FormData();
+    formData.append('title', this.state.title);
+    formData.append('description', this.state.description);
+    formData.append('genre', parseInt(this.state.genre));
+    formData.append('author', parseInt(this.state.author));
+    formData.append('image', this.state.image);
+    this.props.AddBooks(token, formData)
+    .then((res)=>{
+      console.log(res)
+      this.handleSuccessPopUp(res.action.type);
+    })
+    .catch((err)=>{
+      this.handleFailPopUp(err);
+    });
+  }
   
 
   handleGoBack =() =>{
@@ -59,7 +65,6 @@ class AddData extends Component{
         this.setState({image: response})
       }
     })
-    console.log(this.state)
   }
 
   handleGetGenre = () =>{
@@ -81,6 +86,15 @@ class AddData extends Component{
     await this.handleGetGenre();
     await this.handleGetAuthor();
     await this.handleGetBookType();
+  }
+
+  handleSuccessPopUp = (res) =>{
+    this.setState({isSuccess: !this.state.isSuccess, actionMsg: res})
+    this.props.navigation.push('CRUD')
+  }
+
+  handleFailPopUp = (err) =>{
+    this.setState({isError: !this.state.isError, actionMsg: err})
   }
 
   render(){
@@ -165,9 +179,11 @@ class AddData extends Component{
               </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.AddButton} activeOpacity={.6}>
+          <TouchableOpacity onPress={this.handleAddData} style={styles.AddButton} activeOpacity={.6}>
             <Text style={{color: 'white', fontFamily: 'Poppins-Regular'}}>Add Data</Text>
           </TouchableOpacity>
+          <SuccessPopUp popup={this.handleSuccessPopUp} isSuccess={this.state.isSuccess} msg={this.state.actionMsg} />
+          <FailPopUp popup={this.handleFailPopUp} isError={this.state.isError} msg={this.state.actionMsg} navigation={this.props.navigation} />
         </ScrollView>
       </>
     )

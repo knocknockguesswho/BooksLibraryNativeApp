@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { Register } from '../../redux/actions/Auth/';
+import SuccessPopUp from '../../components/display/SuccessPopUp';
+import FailPopUp from '../../components/display/FailPopUp';
 import { 
   Text, 
   View, 
@@ -9,7 +13,64 @@ import {
   ScrollView 
 } from 'react-native';
 
-export default Signup = () =>{
+const Signup = (props) =>{
+
+
+  const [input, setInput] = useState({
+    username: '',
+    fullName: '',
+    email: '',
+    password: '',
+    actionMsg: '',
+    isError: '',
+    isSuccess: '',
+  })
+
+  const signUpAuth = (event) =>{
+    event.preventDefault();
+    const data = {
+      fullName: input.fullName,
+      username: input.username,
+      password: input.password,
+      email: input.email,
+    }
+    props.Register(data)
+    .then((res)=>{
+      setInput({
+        ...input,
+        actionMsg: `Thankyou ${input.username} for registering on our services.`,
+        isSuccess: true
+      })
+    })
+    .catch((err)=>{
+      setInput({
+        ...input,
+        actionMsg: `Something Bad Happened`,
+        isError: true
+      })
+    })
+  } 
+  
+  const handleSuccessPopUp = (res) =>{
+    setInput({
+      ...input,
+      isSuccess: !input.isSuccess, 
+      actionMsg: res
+    })
+    props.navigation.push('Home');
+  }
+  
+  const handleFailPopUp = (err) =>{
+    setInput({
+      ...input,
+      isError: !input.isError, 
+      actionMsg: err
+    })
+    props.navigation.push('Signup');
+  }
+
+  console.log(props)
+
   return(
     <ScrollView showsVerticalScrollIndicator={false}>
       <Text style={styles.formTitle}>Sign Up</Text>
@@ -20,6 +81,8 @@ export default Signup = () =>{
             placeholderTextColor='#ebebeb'
             style={styles.formInput}
             placeholder='Full Name'
+            value={input.fullName}
+            onChangeText={(value)=>setInput({...input, fullName: value})}
           />
         </View>
         <View>
@@ -28,6 +91,8 @@ export default Signup = () =>{
             placeholderTextColor='#ebebeb'
             style={styles.formInput}
             placeholder='Email'
+            value={input.email}
+            onChangeText={(value)=>setInput({...input, email: value})}
           />
         </View>
         <View>
@@ -36,6 +101,8 @@ export default Signup = () =>{
             placeholderTextColor='#ebebeb'
             style={styles.formInput}
             placeholder='Username'
+            value={input.username}
+            onChangeText={(value)=>setInput({...input, username: value})}
           />
         </View>
         <View>
@@ -45,10 +112,12 @@ export default Signup = () =>{
             placeholderTextColor='#ebebeb'
             style={styles.formInput}
             placeholder='Password'
+            value={input.password}
+            onChangeText={(value)=>setInput({...input, password: value})}
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.signUpButton} activeOpacity={.6}>
+      <TouchableOpacity onPress={signUpAuth} style={styles.signUpButton} activeOpacity={.6}>
         <Text style={{color: 'white', fontFamily: 'Poppins-Regular'}}>Sign Up</Text>
       </TouchableOpacity>
       <View style={styles.termsConditions}>
@@ -61,6 +130,8 @@ export default Signup = () =>{
           <Text style={{fontSize: 8, color: '#188FDE', fontFamily: 'Poppins-Regular'}}>Privacy Policy </Text>
         </TouchableOpacity>
       </View>
+      <SuccessPopUp popup={handleSuccessPopUp} isSuccess={input.isSuccess} msg={input.actionMsg} />
+      <FailPopUp popup={handleFailPopUp} isError={input.isError} msg={input.actionMsg} navigation={props.navigation} />
     </ScrollView>
   )
 }
@@ -113,3 +184,14 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+const mapStateToProps = state =>({
+  Auth: state.Auth
+});
+
+const mapDispatchToProps = { Register }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Signup)

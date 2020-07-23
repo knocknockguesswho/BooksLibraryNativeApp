@@ -23,10 +23,11 @@ TODO:
 5. borrow book
     -every borrow activity should be store to history of borrow (username, book, borrowed_at, returned_at)
 
-6. Data CRUD for server admin
+6. Data CRUD for server admin {ONGOING}
 
 
 PROBS:
 
 1. time out while fetching comic book
 2. comic fetch algorithm affecting the redux state; data reduced ###case closed###
+3. cannot open galery when use image picker
